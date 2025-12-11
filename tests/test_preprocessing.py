@@ -3,7 +3,7 @@
 import pytest
 import numpy as np
 
-from src.catfacialid.core.preprocessing import (
+from catfacialid.core.preprocessing import (
     DimensionalityReducer,
     FeatureExtractor,
     FeatureFuser,

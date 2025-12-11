@@ -7,7 +7,7 @@ import pytest
 import numpy as np
 import joblib
 
-from src.catfacialid.data import DataLoader
+from catfacialid.data import DataLoader
 
 
 class TestDataLoader:

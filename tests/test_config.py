@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.catfacialid.config import (
+from catfacialid.config import (
     PreprocessingConfig,
     ModelConfig,
     DataConfig,

@@ -3,7 +3,7 @@
 import pytest
 import numpy as np
 
-from src.catfacialid.core.inference import FAISSIndex, PredictionEngine
+from catfacialid.core.inference import FAISSIndex, PredictionEngine
 
 
 class TestFAISSIndex:
