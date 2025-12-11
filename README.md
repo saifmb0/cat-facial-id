@@ -36,7 +36,7 @@ cat-facial-id/
 ## Installation
 
 ### Requirements
-- Python 3.8+
+- Python 3.9+
 - CUDA 11.8+ (optional, for GPU acceleration)
 
 ### Setup
