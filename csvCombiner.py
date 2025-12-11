@@ -6,13 +6,12 @@ identification competition.
 
 Example:
     Combine all CSV files in a directory:
-    
+
     $ python csvCombiner.py --input-dir ./predictions --output-dir ./submissions
 """
 
 import argparse
 import logging
-import os
 import sys
 from pathlib import Path
 
@@ -23,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 def setup_logging(verbose: bool = False) -> None:
     """Configure logging for the script.
-    
+
     Args:
         verbose: Enable verbose logging output.
     """
@@ -41,19 +40,19 @@ def combine_csv_files(
     exclude_files: list = None,
 ) -> str:
     """Combine multiple CSV prediction files into single submission.
-    
+
     Iterates through all CSV files in the input directory (excluding specified
     files), concatenates them with proper indexing, and writes to output file.
-    
+
     Args:
         input_directory: Directory containing CSV files to combine.
         output_directory: Directory for output submission file.
         output_filename: Name for combined output file.
         exclude_files: List of filenames to exclude from combination.
-    
+
     Returns:
         Path to the created submission file.
-    
+
     Raises:
         FileNotFoundError: If input directory doesn't exist.
         ValueError: If no CSV files found to combine.
@@ -120,7 +119,7 @@ def combine_csv_files(
 
 def main() -> int:
     """Command-line entry point for CSV combination utility.
-    
+
     Returns:
         Exit code (0 for success, 1 for failure).
     """
@@ -131,10 +130,10 @@ def main() -> int:
 Examples:
   # Combine CSVs in current directory
   python csvCombiner.py --input-dir .
-  
+
   # Combine with custom output
   python csvCombiner.py --input-dir ./predictions --output-dir ./submissions
-  
+
   # Exclude specific files
   python csvCombiner.py --input-dir . --exclude manual_review.csv
         """,

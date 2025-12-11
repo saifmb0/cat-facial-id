@@ -68,7 +68,9 @@ class TestDimensionalityReducer:
         X_train, X_test, _ = sample_data_with_labels
         reducer = DimensionalityReducer(seed=42, verbose=False)
 
-        X_train_pca, X_test_pca = reducer.apply_pca(X_train, X_test, variance_threshold=0.9)
+        X_train_pca, X_test_pca = reducer.apply_pca(
+            X_train, X_test, variance_threshold=0.9
+        )
 
         # Check dimensions are reduced
         assert X_train_pca.shape[1] < X_train.shape[1]
@@ -94,9 +96,7 @@ class TestDimensionalityReducer:
         X_train, X_test, _ = sample_data_with_labels
         reducer = DimensionalityReducer(seed=42, verbose=False)
 
-        X_train_ica, X_test_ica = reducer.apply_ica(
-            X_train, X_test, n_components=20
-        )
+        X_train_ica, X_test_ica = reducer.apply_ica(X_train, X_test, n_components=20)
 
         # Check dimensions
         assert X_train_ica.shape[1] == 20
@@ -108,9 +108,7 @@ class TestDimensionalityReducer:
         reducer = DimensionalityReducer(seed=42, verbose=False)
 
         # Request more components than samples
-        X_train_ica, X_test_ica = reducer.apply_ica(
-            X_train, X_test, n_components=500
-        )
+        X_train_ica, X_test_ica = reducer.apply_ica(X_train, X_test, n_components=500)
 
         # Components should be capped at n_samples
         assert X_train_ica.shape[1] == X_train.shape[0]

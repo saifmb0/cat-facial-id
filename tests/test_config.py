@@ -1,7 +1,5 @@
 """Unit tests for configuration management."""
 
-import pytest
-
 from catfacialid.config import (
     PreprocessingConfig,
     ModelConfig,

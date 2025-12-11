@@ -15,14 +15,14 @@ logger = logging.getLogger(__name__)
 
 class FAISSIndex:
     """FAISS-based index for efficient similarity search.
-    
+
     Wraps FAISS IndexFlatL2 to provide fast k-NN search on embeddings
     with associated label tracking.
     """
 
     def __init__(self, dimension: int, verbose: bool = True):
         """Initialize FAISS index.
-        
+
         Args:
             dimension: Dimensionality of feature vectors.
             verbose: Enable verbose logging.
@@ -32,15 +32,13 @@ class FAISSIndex:
         self.index = faiss.IndexFlatL2(dimension)
         self.labels = None
 
-    def add_vectors(
-        self, vectors: np.ndarray, labels: np.ndarray
-    ) -> None:
+    def add_vectors(self, vectors: np.ndarray, labels: np.ndarray) -> None:
         """Add vectors and associated labels to index.
-        
+
         Args:
             vectors: Feature matrix of shape (n_samples, dimension).
             labels: Class labels of shape (n_samples,).
-            
+
         Raises:
             ValueError: If vector dimension doesn't match index.
         """
@@ -59,11 +57,11 @@ class FAISSIndex:
 
     def search(self, query_vector: np.ndarray, k: int = 3) -> Tuple[np.ndarray, List]:
         """Search for k-nearest neighbors.
-        
+
         Args:
             query_vector: Single query vector or batch of shape (batch_size, dimension).
             k: Number of nearest neighbors to return.
-            
+
         Returns:
             Tuple of (distances, predicted_labels).
             - distances: L2 distances to neighbors, shape (n_queries, k)
@@ -91,7 +89,7 @@ class FAISSIndex:
 
     def get_index_size(self) -> int:
         """Get number of vectors in index.
-        
+
         Returns:
             Number of indexed vectors.
         """
@@ -100,14 +98,14 @@ class FAISSIndex:
 
 class PredictionEngine:
     """End-to-end prediction pipeline with FAISS backend.
-    
+
     Coordinates feature extraction, indexing, and prediction generation
     for the cat facial identification task.
     """
 
     def __init__(self, top_k: int = 3, verbose: bool = True):
         """Initialize PredictionEngine.
-        
+
         Args:
             top_k: Number of top predictions to return.
             verbose: Enable verbose logging.
@@ -116,11 +114,9 @@ class PredictionEngine:
         self.verbose = verbose
         self.faiss_index = None
 
-    def build_index(
-        self, X_train: np.ndarray, y_train: np.ndarray
-    ) -> None:
+    def build_index(self, X_train: np.ndarray, y_train: np.ndarray) -> None:
         """Build FAISS index from training data.
-        
+
         Args:
             X_train: Training feature matrix.
             y_train: Training labels.
@@ -141,14 +137,14 @@ class PredictionEngine:
         self, X_test: np.ndarray, image_names: Optional[List[str]] = None
     ) -> List[Tuple]:
         """Generate top-k predictions for test samples.
-        
+
         Args:
             X_test: Test feature matrix.
             image_names: Optional list of image filenames for results.
-            
+
         Returns:
             List of tuples (image_name, [top_k_predictions]).
-            
+
         Raises:
             RuntimeError: If index not yet built.
         """
@@ -169,10 +165,10 @@ class PredictionEngine:
 
     def predict_single(self, features: np.ndarray) -> List:
         """Generate predictions for a single sample.
-        
+
         Args:
             features: Feature vector of shape (dimension,).
-            
+
         Returns:
             Top-k predicted class labels.
         """

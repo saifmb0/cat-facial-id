@@ -17,14 +17,14 @@ logger = logging.getLogger(__name__)
 
 class DimensionalityReducer:
     """Handles dimensionality reduction using multiple techniques.
-    
+
     Supports PCA, LDA, and ICA for feature space reduction while
     preserving discriminative information.
     """
 
     def __init__(self, seed: int = 42, verbose: bool = True):
         """Initialize DimensionalityReducer.
-        
+
         Args:
             seed: Random seed for reproducibility.
             verbose: Enable verbose logging.
@@ -44,12 +44,12 @@ class DimensionalityReducer:
         variance_threshold: float = 0.95,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """Apply PCA for variance-based dimensionality reduction.
-        
+
         Args:
             X_train: Training feature matrix.
             X_test: Test feature matrix.
             variance_threshold: Fraction of variance to retain (0-1).
-            
+
         Returns:
             Tuple of (X_train_pca, X_test_pca).
         """
@@ -77,13 +77,14 @@ class DimensionalityReducer:
         n_components: Optional[int] = None,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """Apply LDA for class-discriminant dimensionality reduction.
-        
+
         Args:
             X_train: Training feature matrix.
             X_test: Test feature matrix.
             y_train: Training labels.
-            n_components: Number of LDA components. If None, uses min(features, classes-1).
-            
+            n_components: Number of LDA components.
+                If None, uses min(features, classes-1).
+
         Returns:
             Tuple of (X_train_lda, X_test_lda).
         """
@@ -110,13 +111,13 @@ class DimensionalityReducer:
         max_iterations: int = 200,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """Apply FastICA for independent component analysis.
-        
+
         Args:
             X_train: Training feature matrix.
             X_test: Test feature matrix.
             n_components: Number of ICA components.
             max_iterations: Maximum iterations for ICA convergence.
-            
+
         Returns:
             Tuple of (X_train_ica, X_test_ica).
         """
@@ -138,14 +139,14 @@ class DimensionalityReducer:
 
 class FeatureExtractor:
     """Coordinate preprocessing pipeline with scaling.
-    
+
     Handles proper scaling of features before applying dimensionality
     reduction techniques to avoid information leakage.
     """
 
     def __init__(self, seed: int = 42, verbose: bool = True):
         """Initialize FeatureExtractor.
-        
+
         Args:
             seed: Random seed for reproducibility.
             verbose: Enable verbose logging.
@@ -158,11 +159,11 @@ class FeatureExtractor:
         self, X_train: np.ndarray, X_test: np.ndarray
     ) -> Tuple[np.ndarray, np.ndarray]:
         """Standardize features using training data statistics.
-        
+
         Args:
             X_train: Training feature matrix.
             X_test: Test feature matrix.
-            
+
         Returns:
             Tuple of (X_train_scaled, X_test_scaled).
         """
@@ -178,14 +179,14 @@ class FeatureExtractor:
 
 class FeatureFuser:
     """Fuse features from multiple sources into unified representation.
-    
+
     Combines PCA, LDA, and ICA features through concatenation and
     normalization to create robust fused feature vectors.
     """
 
     def __init__(self, verbose: bool = True):
         """Initialize FeatureFuser.
-        
+
         Args:
             verbose: Enable verbose logging.
         """
@@ -198,14 +199,14 @@ class FeatureFuser:
         normalize_output: bool = True,
     ) -> np.ndarray:
         """Concatenate and optionally normalize multiple feature arrays.
-        
+
         Args:
             *feature_arrays: Variable number of feature matrices to fuse.
             normalize_output: Whether to L2-normalize the fused features.
-            
+
         Returns:
             Fused feature matrix.
-            
+
         Raises:
             ValueError: If feature arrays have inconsistent sample counts.
         """
@@ -226,7 +227,9 @@ class FeatureFuser:
         if normalize_output:
             X_fused = normalize(X_fused, axis=1)
             if self.verbose:
-                logger.info(f"Features fused and L2-normalized: dim={self.total_fused_dim}")
+                logger.info(
+                    f"Features fused and L2-normalized: dim={self.total_fused_dim}"
+                )
         else:
             if self.verbose:
                 logger.info(f"Features fused: dim={self.total_fused_dim}")

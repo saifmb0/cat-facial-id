@@ -12,14 +12,14 @@ logger = logging.getLogger(__name__)
 
 class DataLoader:
     """Load and manage training and testing datasets.
-    
+
     This class handles loading pre-extracted features from pickle files
     and provides utility methods for dataset inspection and validation.
     """
 
     def __init__(self, verbose: bool = True):
         """Initialize DataLoader.
-        
+
         Args:
             verbose: Enable verbose logging output.
         """
@@ -31,13 +31,13 @@ class DataLoader:
 
     def load_train_features(self, filepath: str) -> Tuple[np.ndarray, np.ndarray]:
         """Load pre-extracted training features and labels.
-        
+
         Args:
             filepath: Path to the training features pickle file.
-            
+
         Returns:
             Tuple of (features, labels) as numpy arrays.
-            
+
         Raises:
             FileNotFoundError: If the specified file does not exist.
             ValueError: If the loaded data format is invalid.
@@ -51,27 +51,32 @@ class DataLoader:
             if isinstance(data, tuple) and len(data) == 2:
                 self.X_train, self.y_train = data
             else:
-                raise ValueError(f"Expected tuple of (features, labels), got {type(data)}")
+                msg = f"Expected tuple of (features, labels), got {type(data)}"
+                raise ValueError(msg)
 
             if self.verbose:
+                n_classes = len(np.unique(self.y_train))
                 logger.info(
-                    f"Loaded training features: {self.X_train.shape} with "
-                    f"{len(np.unique(self.y_train))} classes"
+                    f"Loaded training features: {self.X_train.shape} "
+                    f"with {n_classes} classes"
                 )
             return self.X_train, self.y_train
         except Exception as e:
             logger.error(f"Error loading training features: {e}")
             raise
 
-    def load_test_features(self, filepath: str) -> Tuple[np.ndarray, Optional[List[str]]]:
+    def load_test_features(
+        self, filepath: str
+    ) -> Tuple[np.ndarray, Optional[List[str]]]:
         """Load pre-extracted test features.
-        
+
         Args:
             filepath: Path to the test features pickle file.
-            
+
         Returns:
-            Tuple of (features, image_names). image_names is None if not included.
-            
+            Tuple of (features, image_names).
+            image_names is None if not included.
+
         Raises:
             FileNotFoundError: If the specified file does not exist.
         """
@@ -98,22 +103,23 @@ class DataLoader:
 
     def get_class_distribution(self) -> dict:
         """Get distribution of classes in training data.
-        
+
         Returns:
             Dictionary mapping class labels to sample counts.
-            
+
         Raises:
             RuntimeError: If training data not yet loaded.
         """
         if self.y_train is None:
-            raise RuntimeError("Training labels not loaded. Call load_train_features first.")
+            msg = "Training labels not loaded. Call load_train_features first."
+            raise RuntimeError(msg)
 
         unique, counts = np.unique(self.y_train, return_counts=True)
         return dict(zip(unique, counts))
 
     def get_stats(self) -> dict:
         """Get comprehensive statistics about loaded datasets.
-        
+
         Returns:
             Dictionary containing dataset statistics.
         """
