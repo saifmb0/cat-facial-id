@@ -1,7 +1,7 @@
 """Unit tests for inference engine."""
 
-import pytest
 import numpy as np
+import pytest
 
 from catfacialid.core.inference import FAISSIndex, PredictionEngine
 

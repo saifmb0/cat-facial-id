@@ -3,9 +3,9 @@
 import tempfile
 from pathlib import Path
 
-import pytest
-import numpy as np
 import joblib
+import numpy as np
+import pytest
 
 from catfacialid.data import DataLoader
 

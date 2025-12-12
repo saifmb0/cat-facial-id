@@ -1,7 +1,7 @@
 """Unit tests for preprocessing and feature extraction."""
 
-import pytest
 import numpy as np
+import pytest
 
 from catfacialid.core.preprocessing import (
     DimensionalityReducer,
@@ -103,15 +103,16 @@ class TestDimensionalityReducer:
         assert X_test_ica.shape[1] == 20
 
     def test_ica_n_components_capped(self, sample_data_with_labels):
-        """Test that ICA components are capped at sample count."""
+        """Test that ICA components are capped appropriately."""
         X_train, X_test, _ = sample_data_with_labels
         reducer = DimensionalityReducer(seed=42, verbose=False)
 
         # Request more components than samples
         X_train_ica, X_test_ica = reducer.apply_ica(X_train, X_test, n_components=500)
 
-        # Components should be capped at n_samples
-        assert X_train_ica.shape[1] == X_train.shape[0]
+        # scikit-learn's FastICA caps at min(n_samples, n_features)
+        expected_components = min(X_train.shape[0], X_train.shape[1])
+        assert X_train_ica.shape[1] == expected_components
 
 
 class TestFeatureFuser:

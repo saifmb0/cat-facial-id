@@ -1,7 +1,7 @@
 """Core module for feature extraction and model inference."""
 
-from .preprocessing import FeatureExtractor, FeatureFuser, DimensionalityReducer
 from .inference import FAISSIndex, PredictionEngine
+from .preprocessing import DimensionalityReducer, FeatureExtractor, FeatureFuser
 
 __all__ = [
     "FeatureExtractor",

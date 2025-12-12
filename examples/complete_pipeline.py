@@ -19,8 +19,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from catfacialid.config import SystemConfig  # noqa: E402
 from catfacialid.core import (  # noqa: E402
-    FeatureExtractor,
     DimensionalityReducer,
+    FeatureExtractor,
     FeatureFuser,
     PredictionEngine,
 )

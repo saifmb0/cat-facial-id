@@ -2,7 +2,7 @@
 
 import logging
 from pathlib import Path
-from typing import Tuple, List, Optional
+from typing import List, Optional, Tuple
 
 import joblib
 import numpy as np

@@ -1,9 +1,9 @@
 """Unit tests for configuration management."""
 
 from catfacialid.config import (
-    PreprocessingConfig,
-    ModelConfig,
     DataConfig,
+    ModelConfig,
+    PreprocessingConfig,
     SystemConfig,
 )
 

@@ -5,7 +5,7 @@ and feature fusion techniques used in the cat facial identification pipeline.
 """
 
 import logging
-from typing import Tuple, Optional
+from typing import Optional, Tuple
 
 import numpy as np
 from sklearn.decomposition import PCA, FastICA
