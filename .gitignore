@@ -52,7 +52,9 @@ Thumbs.db
 *.pkl
 *.joblib
 *.log
+# Artifacts and data
 submissions/
+Submissions/
 data/
 models/
 *.zip
