@@ -281,7 +281,8 @@ if PYDANTIC_AVAILABLE:
             Returns:
                 Dictionary representation of configuration.
             """
-            return self.model_dump()
+            result: Dict[str, Any] = self.model_dump()
+            return result
 
         def to_yaml(self, path: Path) -> None:
             """Save configuration to YAML file.
