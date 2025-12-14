@@ -8,6 +8,6 @@ with advanced feature extraction and similarity matching.
 __version__ = "1.0.0"
 __author__ = "Saif M."
 
-from . import core, data
+from . import core, data, exceptions
 
-__all__ = ["core", "data"]
+__all__ = ["core", "data", "exceptions"]
