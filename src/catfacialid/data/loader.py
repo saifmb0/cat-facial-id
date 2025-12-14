@@ -2,7 +2,7 @@
 
 import logging
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import joblib
 import numpy as np
@@ -29,7 +29,9 @@ class DataLoader:
         self.X_test: Optional[np.ndarray] = None
         self.test_image_names: Optional[List[str]] = None
 
-    def load_train_features(self, filepath: str) -> Tuple[np.ndarray, np.ndarray]:
+    def load_train_features(
+        self, filepath: Union[str, Path]
+    ) -> Tuple[np.ndarray, np.ndarray]:
         """Load pre-extracted training features and labels.
 
         Args:
@@ -42,12 +44,12 @@ class DataLoader:
             FileNotFoundError: If the specified file does not exist.
             ValueError: If the loaded data format is invalid.
         """
-        filepath = Path(filepath)
-        if not filepath.exists():
-            raise FileNotFoundError(f"Training features file not found: {filepath}")
+        path = Path(filepath)
+        if not path.exists():
+            raise FileNotFoundError(f"Training features file not found: {path}")
 
         try:
-            data = joblib.load(filepath)
+            data: Any = joblib.load(path)
             if isinstance(data, tuple) and len(data) == 2:
                 self.X_train, self.y_train = data
             else:
@@ -66,7 +68,7 @@ class DataLoader:
             raise
 
     def load_test_features(
-        self, filepath: str
+        self, filepath: Union[str, Path]
     ) -> Tuple[np.ndarray, Optional[List[str]]]:
         """Load pre-extracted test features.
 
@@ -80,12 +82,12 @@ class DataLoader:
         Raises:
             FileNotFoundError: If the specified file does not exist.
         """
-        filepath = Path(filepath)
-        if not filepath.exists():
-            raise FileNotFoundError(f"Test features file not found: {filepath}")
+        path = Path(filepath)
+        if not path.exists():
+            raise FileNotFoundError(f"Test features file not found: {path}")
 
         try:
-            data = joblib.load(filepath)
+            data: Any = joblib.load(path)
             if isinstance(data, tuple) and len(data) == 2:
                 self.X_test, self.test_image_names = data
             elif isinstance(data, np.ndarray):
@@ -101,7 +103,7 @@ class DataLoader:
             logger.error(f"Error loading test features: {e}")
             raise
 
-    def get_class_distribution(self) -> dict:
+    def get_class_distribution(self) -> Dict[Any, int]:
         """Get distribution of classes in training data.
 
         Returns:
@@ -117,23 +119,23 @@ class DataLoader:
         unique, counts = np.unique(self.y_train, return_counts=True)
         return dict(zip(unique, counts))
 
-    def get_stats(self) -> dict:
+    def get_stats(self) -> Dict[str, Any]:
         """Get comprehensive statistics about loaded datasets.
 
         Returns:
             Dictionary containing dataset statistics.
         """
-        stats = {}
+        stats: Dict[str, Any] = {}
 
         if self.X_train is not None:
             stats["train_samples"] = len(self.X_train)
-            stats["train_features_dim"] = self.X_train.shape[1]
+            stats["train_features_dim"] = int(self.X_train.shape[1])
             stats["train_classes"] = len(np.unique(self.y_train))
             stats["train_min_value"] = float(self.X_train.min())
             stats["train_max_value"] = float(self.X_train.max())
 
         if self.X_test is not None:
             stats["test_samples"] = len(self.X_test)
-            stats["test_features_dim"] = self.X_test.shape[1]
+            stats["test_features_dim"] = int(self.X_test.shape[1])
 
         return stats

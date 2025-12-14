@@ -172,6 +172,7 @@ def setup_logging(
     handler.setLevel(getattr(logging, level.upper()))
 
     # Set formatter
+    formatter: logging.Formatter
     if json_output:
         formatter = JSONFormatter(extra_fields=extra_fields)
     else:

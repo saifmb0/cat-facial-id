@@ -5,7 +5,7 @@ k-nearest neighbor search on the training embeddings.
 """
 
 import logging
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 import faiss
 import numpy as np
@@ -29,8 +29,8 @@ class FAISSIndex:
         """
         self.dimension = dimension
         self.verbose = verbose
-        self.index = faiss.IndexFlatL2(dimension)
-        self.labels = None
+        self.index: faiss.IndexFlatL2 = faiss.IndexFlatL2(dimension)
+        self.labels: Optional[np.ndarray] = None
 
     def add_vectors(self, vectors: np.ndarray, labels: np.ndarray) -> None:
         """Add vectors and associated labels to index.
@@ -48,14 +48,14 @@ class FAISSIndex:
                 f"index dimension {self.dimension}"
             )
 
-        vectors_float32 = vectors.astype(np.float32)
+        vectors_float32: np.ndarray = vectors.astype(np.float32)
         self.index.add(vectors_float32)
         self.labels = labels
 
         if self.verbose:
             logger.info(f"Added {len(vectors)} vectors to FAISS index")
 
-    def search(self, query_vector: np.ndarray, k: int = 3) -> Tuple[np.ndarray, List]:
+    def search(self, query_vector: np.ndarray, k: int = 3) -> Tuple[np.ndarray, List[List[Any]]]:
         """Search for k-nearest neighbors.
 
         Args:
@@ -76,14 +76,15 @@ class FAISSIndex:
                 f"index dimension {self.dimension}"
             )
 
-        query_float32 = query_vector.astype(np.float32)
+        query_float32: np.ndarray = query_vector.astype(np.float32)
         distances, indices = self.index.search(query_float32, k)
 
         # Map indices to original labels
-        predicted_labels = []
-        for idx_list in indices:
-            labels_for_query = [self.labels[int(idx)] for idx in idx_list]
-            predicted_labels.append(labels_for_query)
+        predicted_labels: List[List[Any]] = []
+        if self.labels is not None:
+            for idx_list in indices:
+                labels_for_query = [self.labels[int(idx)] for idx in idx_list]
+                predicted_labels.append(labels_for_query)
 
         return distances, predicted_labels
 
@@ -93,7 +94,7 @@ class FAISSIndex:
         Returns:
             Number of indexed vectors.
         """
-        return self.index.ntotal
+        return int(self.index.ntotal)
 
 
 class PredictionEngine:
@@ -112,7 +113,7 @@ class PredictionEngine:
         """
         self.top_k = top_k
         self.verbose = verbose
-        self.faiss_index = None
+        self.faiss_index: Optional[FAISSIndex] = None
 
     def build_index(self, X_train: np.ndarray, y_train: np.ndarray) -> None:
         """Build FAISS index from training data.

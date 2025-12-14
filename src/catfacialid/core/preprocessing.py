@@ -5,7 +5,7 @@ and feature fusion techniques used in the cat facial identification pipeline.
 """
 
 import logging
-from typing import Optional, Tuple
+from typing import Any, Optional, Tuple
 
 import numpy as np
 from sklearn.decomposition import PCA, FastICA
@@ -31,11 +31,11 @@ class DimensionalityReducer:
         """
         self.seed = seed
         self.verbose = verbose
-        self.pca = None
-        self.lda = None
-        self.ica = None
-        self.pca_scaler = None
-        self.ica_scaler = None
+        self.pca: Optional[PCA] = None
+        self.lda: Optional[LDA] = None
+        self.ica: Optional[FastICA] = None
+        self.pca_scaler: Optional[StandardScaler] = None
+        self.ica_scaler: Optional[StandardScaler] = None
 
     def apply_pca(
         self,
@@ -191,7 +191,7 @@ class FeatureFuser:
             verbose: Enable verbose logging.
         """
         self.verbose = verbose
-        self.total_fused_dim = None
+        self.total_fused_dim: Optional[int] = None
 
     def fuse_features(
         self,
@@ -225,7 +225,7 @@ class FeatureFuser:
         self.total_fused_dim = X_fused.shape[1]
 
         if normalize_output:
-            X_fused = normalize(X_fused, axis=1)
+            X_fused = np.asarray(normalize(X_fused, axis=1))
             if self.verbose:
                 logger.info(
                     f"Features fused and L2-normalized: dim={self.total_fused_dim}"
@@ -234,4 +234,5 @@ class FeatureFuser:
             if self.verbose:
                 logger.info(f"Features fused: dim={self.total_fused_dim}")
 
-        return X_fused
+        result: np.ndarray = X_fused
+        return result
