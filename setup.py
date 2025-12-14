@@ -70,6 +70,10 @@ setup(
             "myst-parser>=2.0.0",
             "sphinx-autodoc-typehints>=1.24.0",
         ],
+        "onnx": [
+            "onnx>=1.14.0",
+            "onnxruntime>=1.15.0",
+        ],
         "all": [
             "typer[all]>=0.9.0",
             "rich>=13.0.0",
@@ -77,6 +81,8 @@ setup(
             "pydantic-settings>=2.0.0",
             "python-dotenv>=1.0.0",
             "pandera>=0.17.0",
+            "onnx>=1.14.0",
+            "onnxruntime>=1.15.0",
         ],
     },
     entry_points={
