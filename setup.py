@@ -88,6 +88,7 @@ setup(
     entry_points={
         "console_scripts": [
             "catfacialid=catfacialid.cli:app",
+            "cat-id=catfacialid.cli:app",
         ],
     },
 )
