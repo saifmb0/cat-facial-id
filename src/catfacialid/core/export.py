@@ -27,7 +27,7 @@ import numpy as np
 
 try:
     import onnx
-    from onnx import helper, numpy_helper, TensorProto
+    from onnx import TensorProto, helper, numpy_helper
 
     ONNX_AVAILABLE = True
 except ImportError:
@@ -297,9 +297,7 @@ class ONNXExporter:
             np.array([1e-12], dtype=np.float32), "epsilon"
         )
         initializers.append(epsilon)
-        nodes.append(
-            helper.make_node("Max", ["l2_norm", "epsilon"], ["l2_norm_safe"])
-        )
+        nodes.append(helper.make_node("Max", ["l2_norm", "epsilon"], ["l2_norm_safe"]))
         nodes.append(
             helper.make_node("Div", [final_output, "l2_norm_safe"], ["output"])
         )

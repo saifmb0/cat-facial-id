@@ -86,7 +86,9 @@ class ModelNotFittedError(CatFacialIDError):
     def __init__(
         self, model_name: str = "Model", details: Optional[dict[str, Any]] = None
     ) -> None:
-        message = f"{model_name} has not been fitted. Call fit() or build_index() first."
+        message = (
+            f"{model_name} has not been fitted. Call fit() or build_index() first."
+        )
         super().__init__(message, details)
 
 
@@ -136,9 +138,7 @@ class ConfigurationError(CatFacialIDError):
 class EnvironmentError(CatFacialIDError):
     """Raised when required environment variables are missing or invalid."""
 
-    def __init__(
-        self, var_name: str, details: Optional[dict[str, Any]] = None
-    ) -> None:
+    def __init__(self, var_name: str, details: Optional[dict[str, Any]] = None) -> None:
         message = f"Required environment variable '{var_name}' is not set or invalid"
         super().__init__(message, details)
         self.var_name = var_name
@@ -165,7 +165,9 @@ class TransformNotFittedError(CatFacialIDError):
     """
 
     def __init__(
-        self, transform_name: str = "Transform", details: Optional[dict[str, Any]] = None
+        self,
+        transform_name: str = "Transform",
+        details: Optional[dict[str, Any]] = None,
     ) -> None:
         message = f"{transform_name} has not been fitted. Call fit() first."
         super().__init__(message, details)

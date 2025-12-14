@@ -55,7 +55,9 @@ class FAISSIndex:
         if self.verbose:
             logger.info(f"Added {len(vectors)} vectors to FAISS index")
 
-    def search(self, query_vector: np.ndarray, k: int = 3) -> Tuple[np.ndarray, List[List[Any]]]:
+    def search(
+        self, query_vector: np.ndarray, k: int = 3
+    ) -> Tuple[np.ndarray, List[List[Any]]]:
         """Search for k-nearest neighbors.
 
         Args:

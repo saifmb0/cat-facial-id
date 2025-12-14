@@ -209,9 +209,7 @@ if PYDANTIC_AVAILABLE:
         )
 
         # Nested configurations (loaded from env with __ delimiter)
-        preprocessing: PreprocessingConfig = Field(
-            default_factory=PreprocessingConfig
-        )
+        preprocessing: PreprocessingConfig = Field(default_factory=PreprocessingConfig)
         model: ModelConfig = Field(default_factory=ModelConfig)
         data: DataConfig = Field(default_factory=DataConfig)
         logging: LoggingConfig = Field(default_factory=LoggingConfig)

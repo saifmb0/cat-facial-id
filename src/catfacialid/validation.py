@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 try:
     import pandas as pd
     import pandera as pa
-    from pandera import Column, Check, DataFrameSchema
+    from pandera import Check, Column, DataFrameSchema
     from pandera.typing import DataFrame, Series
 
     PANDERA_AVAILABLE = True
@@ -39,7 +39,9 @@ if PANDERA_AVAILABLE:
         },
         checks=[
             # All values should be finite (no NaN or Inf)
-            Check(lambda df: df.notna().all().all(), error="Features contain NaN values"),
+            Check(
+                lambda df: df.notna().all().all(), error="Features contain NaN values"
+            ),
             Check(
                 lambda df: np.isfinite(df.values).all(),
                 error="Features contain infinite values",

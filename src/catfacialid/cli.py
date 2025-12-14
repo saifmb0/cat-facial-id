@@ -20,8 +20,8 @@ from typing import Optional
 try:
     import typer
     from rich.console import Console
-    from rich.table import Table
     from rich.progress import Progress, SpinnerColumn, TextColumn
+    from rich.table import Table
 except ImportError:
     print("CLI dependencies not installed. Run: pip install typer[all] rich")
     sys.exit(1)
@@ -140,7 +140,9 @@ def train(
         X_scaled, _ = extractor.scale_features(X_train, X_train)
 
         reducer = DimensionalityReducer(seed=seed, verbose=False)
-        X_pca, _ = reducer.apply_pca(X_scaled, X_scaled, variance_threshold=pca_variance)
+        X_pca, _ = reducer.apply_pca(
+            X_scaled, X_scaled, variance_threshold=pca_variance
+        )
         X_lda, _ = reducer.apply_lda(X_scaled, X_scaled, y_train)
         X_ica, _ = reducer.apply_ica(X_scaled, X_scaled, n_components=200)
 
@@ -159,6 +161,7 @@ def train(
         # Save model (simplified - in production would use joblib)
         task = progress.add_task("Saving model...", total=None)
         import joblib
+
         model_data = {
             "extractor": extractor,
             "reducer": reducer,
@@ -244,13 +247,17 @@ def predict(
         # Save predictions
         task = progress.add_task("Saving predictions...", total=None)
         with open(output, "w") as f:
-            f.write("image_name," + ",".join([f"pred_{i+1}" for i in range(top_k)]) + "\n")
+            f.write(
+                "image_name," + ",".join([f"pred_{i+1}" for i in range(top_k)]) + "\n"
+            )
             for img_name, preds in results:
                 f.write(f"{img_name}," + ",".join(map(str, preds)) + "\n")
         progress.update(task, completed=True)
         console.print(f"  ✓ Predictions saved to {output}")
 
-    console.print(f"\n[bold green]✅ Generated {len(results)} predictions![/bold green]")
+    console.print(
+        f"\n[bold green]✅ Generated {len(results)} predictions![/bold green]"
+    )
 
 
 @app.command()
