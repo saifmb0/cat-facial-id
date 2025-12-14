@@ -56,6 +56,22 @@ setup(
             "typer[all]>=0.9.0",
             "rich>=13.0.0",
         ],
+        "config": [
+            "pydantic>=2.0.0",
+            "pydantic-settings>=2.0.0",
+            "python-dotenv>=1.0.0",
+        ],
+        "validation": [
+            "pandera>=0.17.0",
+        ],
+        "all": [
+            "typer[all]>=0.9.0",
+            "rich>=13.0.0",
+            "pydantic>=2.0.0",
+            "pydantic-settings>=2.0.0",
+            "python-dotenv>=1.0.0",
+            "pandera>=0.17.0",
+        ],
     },
     entry_points={
         "console_scripts": [
