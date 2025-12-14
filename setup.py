@@ -64,6 +64,12 @@ setup(
         "validation": [
             "pandera>=0.17.0",
         ],
+        "docs": [
+            "sphinx>=7.0.0",
+            "furo>=2023.9.0",
+            "myst-parser>=2.0.0",
+            "sphinx-autodoc-typehints>=1.24.0",
+        ],
         "all": [
             "typer[all]>=0.9.0",
             "rich>=13.0.0",
