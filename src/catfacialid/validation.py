@@ -12,7 +12,7 @@ Example:
 """
 
 import logging
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -20,10 +20,10 @@ logger = logging.getLogger(__name__)
 
 
 try:
-    import pandas as pd
+    import pandas as pd  # noqa: F401
     import pandera as pa
     from pandera import Check, Column, DataFrameSchema
-    from pandera.typing import DataFrame, Series
+    from pandera.typing import DataFrame, Series  # noqa: F401
 
     PANDERA_AVAILABLE = True
 except ImportError:

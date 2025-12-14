@@ -11,11 +11,9 @@ Usage:
     catfacialid info
 """
 
-import json
 import logging
 import sys
 from pathlib import Path
-from typing import Optional
 
 try:
     import typer

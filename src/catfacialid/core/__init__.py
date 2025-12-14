@@ -5,7 +5,7 @@ from .preprocessing import DimensionalityReducer, FeatureExtractor, FeatureFuser
 
 # Optional ONNX export (requires onnx package)
 try:
-    from .export import ONNXExporter, ONNXExportError, export_to_onnx
+    from .export import ONNXExportError, ONNXExporter, export_to_onnx  # noqa: F401
 
     _ONNX_EXPORTS = ["ONNXExporter", "export_to_onnx", "ONNXExportError"]
 except ImportError:
