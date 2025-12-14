@@ -52,5 +52,14 @@ setup(
             "isort>=5.12.0",
             "mypy>=1.4.1",
         ],
+        "cli": [
+            "typer[all]>=0.9.0",
+            "rich>=13.0.0",
+        ],
+    },
+    entry_points={
+        "console_scripts": [
+            "catfacialid=catfacialid.cli:app",
+        ],
     },
 )
