@@ -1,0 +1,29 @@
+services:
+  cat-facial-id:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: catfacialid:latest
+    container_name: catfacialid-app
+    volumes:
+      # Mount data directory for input/output
+      - ./data:/app/data:ro
+      - ./Submissions:/app/Submissions
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    # Override default CMD for interactive use
+    command: ["python", "-c", "print('Cat Facial ID ready. Use docker-compose run cat-facial-id python examples/complete_pipeline.py --help')"]
+
+  # Development service with source mounted for hot-reload
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ["bash"]
+    stdin_open: true
+    tty: true
