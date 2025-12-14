@@ -1,6 +1,54 @@
 # Cat Facial Identification System
 
+[![Tests](https://github.com/saifmb0/cat-facial-id/actions/workflows/tests.yml/badge.svg)](https://github.com/saifmb0/cat-facial-id/actions/workflows/tests.yml)
+[![Code Quality](https://github.com/saifmb0/cat-facial-id/actions/workflows/quality.yml/badge.svg)](https://github.com/saifmb0/cat-facial-id/actions/workflows/quality.yml)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 A production-ready deep learning system for identifying individual cats using facial recognition. Leverages advanced feature extraction techniques (PCA, LDA, ICA) and efficient similarity search using FAISS for scalable inference.
+
+## System Architecture
+
+```mermaid
+flowchart LR
+    subgraph Input
+        A[Raw Features<br/>Pickle Files]
+    end
+
+    subgraph Preprocessing
+        B[Feature Scaling<br/>StandardScaler]
+        C[PCA<br/>Variance Retention]
+        D[LDA<br/>Class Discrimination]
+        E[ICA<br/>Independent Components]
+    end
+
+    subgraph Fusion
+        F[Feature Concatenation<br/>& L2 Normalization]
+    end
+
+    subgraph Index
+        G[FAISS IndexFlatL2<br/>k-NN Search]
+    end
+
+    subgraph Output
+        H[Top-K Predictions<br/>Cat IDs]
+    end
+
+    A --> B
+    B --> C
+    B --> D
+    B --> E
+    C --> F
+    D --> F
+    E --> F
+    F --> G
+    G --> H
+
+    style A fill:#e1f5fe
+    style H fill:#c8e6c9
+    style G fill:#fff3e0
+```
 
 ## Features
 
